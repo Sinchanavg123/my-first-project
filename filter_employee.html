@@ -1,0 +1,33 @@
+{% extends 'employee_app/base.html' %}
+{% block content %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h4>Filter Employees</h4>
+
+        <form method="post" class="row mb-4">
+            {% csrf_token %}
+            <div class="col-md-4">
+                <input type="text" name="name" placeholder="Name" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="department" placeholder="Department" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        {% if employees %}
+            <ul class="list-group">
+                {% for emp in employees %}
+                    <li class="list-group-item">
+                        {{ emp.first_name }} {{ emp.last_name }} — {{ emp.department }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

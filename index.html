@@ -1,0 +1,100 @@
+{% extends 'employee_app/base.html' %}
+{% block content %}
+
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-primary shadow">
+            <div class="card-body">
+                <h6>Total Employees</h6>
+                <h3>{{ total_employees }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-success shadow">
+            <div class="card-body">
+                <h6>Total Departments</h6>
+                <h3>{{ total_departments }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-info shadow">
+            <div class="card-body">
+                <h6>Average Salary</h6>
+                <h3>₹ {{ average_salary|floatformat:2 }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h5 class="mb-3">Employees per Department</h5>
+        <canvas id="departmentChart"></canvas>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="mb-3">Employee List</h5>
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emp in employees %}
+                <tr>
+                    <td>{{ emp.first_name }} {{ emp.last_name }}</td>
+                    <td>{{ emp.department }}</td>
+                    <td>₹ {{ emp.salary }}</td>
+                    <td>
+                        <a href="/edit/{{ emp.id }}/" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="/remove/{{ emp.id }}/" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No employees found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script>
+    const ctx = document.getElementById('departmentChart').getContext('2d');
+    const departmentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Employees',
+                data: {{ data|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
+
+{% endblock %}

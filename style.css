@@ -1,0 +1,38 @@
+body {
+    font-family: Arial;
+    margin: 20px;
+}
+
+nav a {
+    margin-right: 15px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #aaa;
+    padding: 8px;
+}
+.delete-box {
+    background: #ffecec;
+    border: 1px solid #ffb3b3;
+    padding: 20px;
+    width: 50%;
+}
+
+.btn-danger {
+    background: #e60000;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #333;
+}
